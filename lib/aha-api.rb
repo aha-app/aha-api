@@ -1,0 +1,1 @@
+require 'aha-api/version'
