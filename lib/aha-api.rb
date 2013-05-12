@@ -1,25 +1,25 @@
-require 'aha-api/version'
-
 require 'aha-api/configuration'
-require 'aha-api/connection'
-require 'aha-api/request'
-
-require 'aha-api/resources/features'
+require 'aha-api/error'
+require 'aha-api/client'
 
 module AhaApi
-  class Client
-    attr_accessor(*Configuration::VALID_OPTIONS_KEYS)
-
-    def initialize(options={})
-      options = AhaApi.options.merge(options)
-      Configuration::VALID_OPTIONS_KEYS.each do |key|
-        send("#{key}=", options[key])
-      end
+  extend Configuration
+  class << self
+    # Alias for AhaApi::Client.new
+    #
+    # @return [AhaApi::Client]
+    def new(options={})
+      AhaApi::Client.new(options)
     end
 
-    include AhaApi::Connection
-    include AhaApi::Request
+    # Delegate to AhaApi::Client.new
+    def method_missing(method, *args, &block)
+      return super unless new.respond_to?(method)
+      new.send(method, *args, &block)
+    end
 
-    include AhaApi::Resource::Features
+    def respond_to?(method, include_private=false)
+      new.respond_to?(method, include_private) || super(method, include_private)
+    end
   end
 end

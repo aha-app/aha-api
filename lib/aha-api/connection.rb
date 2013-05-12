@@ -1,5 +1,5 @@
 require 'faraday_middleware'
-require 'faraday/response/raise_octokit_error'
+require 'faraday/response/raise_aha_error'
 
 module AhaApi
   # @private
