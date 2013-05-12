@@ -71,8 +71,9 @@ end
 
 def aha_url(url)
   if @client
+    puts "got client"
     "https://#{@client.login}:#{@client.password}@dfaha.io#{url}"
   else
-    "https://dfaha.io#{url}"
+    url
   end
 end

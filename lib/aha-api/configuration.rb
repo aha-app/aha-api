@@ -15,7 +15,7 @@ module AhaApi
       :user_agent].freeze
 
     DEFAULT_ADAPTER = Faraday.default_adapter
-    DEFAULT_API_VERSION = 1
+    DEFAULT_API_VERSION = "v1"
     DEFAULT_API_ENDPOINT = "https://aha.io/"
     DEFAULT_USER_AGENT = "Aha! API Ruby Gem #{AhaApi::VERSION}".freeze
 

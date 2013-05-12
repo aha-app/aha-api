@@ -15,8 +15,8 @@ module AhaApi
       # @see http://developer.github.com/v3/issues/#create-an-issue
       # @example Create a new Issues for a repository
       #   Octokit.create_issue("sferik/rails_admin", 'Updated Docs', 'Added some extra links')
-      def create_feeature(repo, title, body, options={})
-        post("repos/#{Repository.new(repo)}/issues", options.merge({:title => title, :body => body}))
+      def create_feeature(name, description, options={})
+        post("api/#{api_version}/features", options.merge({:name => name, :description => description}))
       end
 
       # Get a single issue from a repository
@@ -27,8 +27,8 @@ module AhaApi
       # @see http://developer.github.com/v3/issues/#get-a-single-issue
       # @example Get issue #25 from pengwynn/octokit
       #   Octokit.issue("pengwynn/octokit", "25")
-      def feature(repo, number, options={})
-        get("repos/#{Repository.new(repo)}/issues/#{number}", options)
+      def feature(ref, options={})
+        get("api/#{api_version}/features/#{ref}", options)
       end
 
     end

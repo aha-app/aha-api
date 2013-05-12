@@ -21,10 +21,10 @@ describe AhaApi::Client do
   end
 
   it "works with basic auth and password" do
-    stub_get("https://foo:bar@api.github.com/repos/baz/quux/commits?per_page=35&sha=master").
-      to_return(:status => 200, :body => '{"commits":[]}', :headers => {})
+    stub_get("https://foo:bar@a.aha.io/api/v1/features/APP-1").
+      to_return(:status => 200, :body => '', :headers => {})
     expect {
-      AhaApi::Client.new(:login => 'foo', :password => 'bar').commits('baz/quux')
+      AhaApi::Client.new(:domain => 'a', :login => 'foo', :password => 'bar').feature('APP-1')
     }.not_to raise_exception
   end
 
@@ -71,7 +71,7 @@ describe AhaApi::Client do
     it "can be set in the options" do
       stub_request(:get, 'http://chris.com').
         to_return(:body => 'k1w1')
-      response = AhaApi.get '/', {:endpoint => 'http://chris.com'}
+      response = AhaApi::Client.new(:domain => "a").get '/', {:endpoint => 'http://chris.com'}
       expect(response).to eq('k1w1')
     end
 
