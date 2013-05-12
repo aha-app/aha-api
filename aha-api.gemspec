@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
  
   s.add_development_dependency "rspec"
   s.add_dependency "faraday"
+  s.add_dependency 'multi_json'
   s.add_dependency "activesupport"
  
   s.files        = Dir.glob("{lib}/**/*") + %w(LICENSE README.md)
