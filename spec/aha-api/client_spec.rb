@@ -7,16 +7,16 @@ describe AhaApi::Client do
   end
 
   it "sets a default user agent" do
-    stub_request(:get, "https://api.github.com/rate_limit").
+    stub_request(:get, "https://aha.io/api").
       with(:headers => {:user_agent => AhaApi.user_agent }).
       to_return(:status => 200, :body => '')
   end
 
   it "allows a custom user agent" do
-    AhaApi.user_agent = 'My mashup'
+    AhaApi.user_agent = 'Custom user agent'
 
-    stub_request(:get, "https://api.github.com/rate_limit").
-      with(:headers => {:user_agent => 'My mashup' }).
+    stub_request(:get, "https://aha.io/api").
+      with(:headers => {:user_agent => 'Custom user agent' }).
       to_return(:status => 200, :body => '')
   end
 
@@ -33,9 +33,10 @@ describe AhaApi::Client do
     AhaApi.configure do |c|
       c.faraday_config { |f| mw_evaluated = true }
     end
-    stub_request(:get, "https://api.github.com/rate_limit").
+    stub_request(:get, "https://aha.io/meta").
       to_return(:status => 200, :body => '')
     client = AhaApi::Client.new()
+    client.aha_meta
     expect(mw_evaluated).to eq(true)
   end
 
@@ -45,9 +46,9 @@ describe AhaApi::Client do
       AhaApi.reset
     end
 
-    it "defaults to https://api.github.com" do
+    it "defaults to https://aha.io" do
       client = AhaApi::Client.new
-      expect(client.api_endpoint).to eq('https://api.github.com/')
+      expect(client.api_endpoint).to eq('https://aha.io/')
     end
 
     it "is set " do
@@ -60,18 +61,18 @@ describe AhaApi::Client do
 
   describe "endpoint url" do
 
-    it "defaults to api.github.com" do
-      stub_request(:get, 'https://api.github.com').
-        to_return(:body => 'octocat')
+    it "defaults to aha.io" do
+      stub_request(:get, 'https://aha.io').
+        to_return(:body => 'Aha!')
       response = AhaApi.get '/'
-      expect(response).to eq('octocat')
+      expect(response).to eq('Aha!')
     end
 
     it "can be set in the options" do
-      stub_request(:get, 'http://wynnnetherland.com').
-        to_return(:body => 'pengwynn')
-      response = AhaApi.get '/', {:endpoint => 'http://wynnnetherland.com'}
-      expect(response).to eq('pengwynn')
+      stub_request(:get, 'http://chris.com').
+        to_return(:body => 'k1w1')
+      response = AhaApi.get '/', {:endpoint => 'http://chris.com'}
+      expect(response).to eq('k1w1')
     end
 
   end

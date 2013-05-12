@@ -1,6 +1,6 @@
 lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
-require 'aha-api'
+require 'aha-api/version'
 
 Gem::Specification.new do |s|
   s.name        = "aha-api"
@@ -17,6 +17,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec"
   s.add_development_dependency "webmock"
   s.add_dependency "faraday"
+  s.add_dependency "faraday_middleware"
+  s.add_dependency "hashie"
   s.add_dependency 'multi_json'
   s.add_dependency "activesupport"
  

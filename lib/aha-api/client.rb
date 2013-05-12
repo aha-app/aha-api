@@ -5,6 +5,7 @@ require 'aha-api/connection'
 require 'aha-api/request'
 
 require 'aha-api/resources/features'
+require 'aha-api/resources/meta'
 
 module AhaApi
   class Client
@@ -21,5 +22,6 @@ module AhaApi
     include AhaApi::Request
 
     include AhaApi::Resource::Features
+    include AhaApi::Resource::Meta
   end
 end

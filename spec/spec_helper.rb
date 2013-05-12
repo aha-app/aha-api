@@ -73,6 +73,6 @@ def aha_url(url)
   if @client
     "https://#{@client.login}:#{@client.password}@aha.io#{url}"
   else
-    raise "No client specified"
+    "https://aha.io#{url}"
   end
 end
