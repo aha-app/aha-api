@@ -15,7 +15,7 @@ module AhaApi
       # @see http://developer.github.com/v3/issues/#create-an-issue
       # @example Create a new Issues for a repository
       #   Octokit.create_issue("sferik/rails_admin", 'Updated Docs', 'Added some extra links')
-      def create_feeature(name, description, options={})
+      def create_feature(name, description, options={})
         post("api/#{api_version}/features", options.merge({:name => name, :description => description}))
       end
 
