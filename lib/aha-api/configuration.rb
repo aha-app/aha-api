@@ -4,6 +4,7 @@ require 'aha-api/version'
 module AhaApi
   module Configuration
     VALID_OPTIONS_KEYS = [
+      :domain,
       :adapter,
       :faraday_config_block,
       :api_version,
@@ -17,7 +18,6 @@ module AhaApi
     DEFAULT_API_VERSION = 1
     DEFAULT_API_ENDPOINT = "https://aha.io/"
     DEFAULT_USER_AGENT = "Aha! API Ruby Gem #{AhaApi::VERSION}".freeze
-    DEFAULT_AUTO_TRAVERSAL = false
 
     attr_accessor(*VALID_OPTIONS_KEYS)
 
@@ -36,9 +36,16 @@ module AhaApi
     def api_endpoint=(value)
       @api_endpoint = File.join(value, "")
     end
-
-    def web_endpoint=(value)
-      @web_endpoint = File.join(value, "")
+    def api_endpoint
+      if @api_endpoint == DEFAULT_API_ENDPOINT
+        u = URI(@api_endpoint.to_s)
+        if not (u.host =~ /[a-z0-9-]+\.[a-z0-9-]+\.[a-z0-9-]+/)
+          u.host = "#{@domain}.#{u.host}"
+        end
+        u.to_s
+      else
+        @api_endpoint
+      end
     end
 
     def faraday_config(&block)
@@ -46,6 +53,7 @@ module AhaApi
     end
 
     def reset
+      self.domain              = nil
       self.adapter             = DEFAULT_ADAPTER
       self.api_version         = DEFAULT_API_VERSION
       self.api_endpoint        = DEFAULT_API_ENDPOINT

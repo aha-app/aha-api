@@ -71,8 +71,8 @@ end
 
 def aha_url(url)
   if @client
-    "https://#{@client.login}:#{@client.password}@aha.io#{url}"
+    "https://#{@client.login}:#{@client.password}@dfaha.io#{url}"
   else
-    "https://aha.io#{url}"
+    "https://dfaha.io#{url}"
   end
 end

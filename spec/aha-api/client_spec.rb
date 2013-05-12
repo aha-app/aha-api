@@ -33,9 +33,9 @@ describe AhaApi::Client do
     AhaApi.configure do |c|
       c.faraday_config { |f| mw_evaluated = true }
     end
-    stub_request(:get, "https://aha.io/meta").
+    stub_request(:get, "https://a.aha.io/meta").
       to_return(:status => 200, :body => '')
-    client = AhaApi::Client.new()
+    client = AhaApi::Client.new(:domain => "a")
     client.aha_meta
     expect(mw_evaluated).to eq(true)
   end
@@ -46,9 +46,9 @@ describe AhaApi::Client do
       AhaApi.reset
     end
 
-    it "defaults to https://aha.io" do
-      client = AhaApi::Client.new
-      expect(client.api_endpoint).to eq('https://aha.io/')
+    it "defaults to https://domain.aha.io" do
+      client = AhaApi::Client.new(:domain => "myaccount")
+      expect(client.api_endpoint).to eq('https://myaccount.aha.io/')
     end
 
     it "is set " do
@@ -62,9 +62,9 @@ describe AhaApi::Client do
   describe "endpoint url" do
 
     it "defaults to aha.io" do
-      stub_request(:get, 'https://aha.io').
+      stub_request(:get, 'https://a.aha.io').
         to_return(:body => 'Aha!')
-      response = AhaApi.get '/'
+      response = AhaApi::Client.new(:domain => "a").get '/'
       expect(response).to eq('Aha!')
     end
 

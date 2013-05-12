@@ -36,6 +36,9 @@ module AhaApi
     end
   end
 
+  # For configuration errors.
+  class ConfigurationError < StandardError; end
+
   # Raised when Aha! returns a 400 HTTP status code
   class BadRequest < Error; end
 

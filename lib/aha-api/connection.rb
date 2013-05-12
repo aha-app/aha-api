@@ -13,6 +13,10 @@ module AhaApi
         :raw              => false
       }.merge(options)
 
+      if domain.nil? || domain.empty?
+        raise ConfigurationError, "domain must be specified"
+      end
+      
       if !proxy.nil?
         options.merge!(:proxy => proxy)
       end

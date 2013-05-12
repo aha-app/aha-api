@@ -12,9 +12,9 @@ module AhaApi
     attr_accessor(*Configuration::VALID_OPTIONS_KEYS)
 
     def initialize(options={})
-      options = AhaApi.options.merge(options)
       Configuration::VALID_OPTIONS_KEYS.each do |key|
-        send("#{key}=", options[key])
+        AhaApi.send("#{key}=", options[key]) if options[key]
+        send("#{key}=", AhaApi.send(key))
       end
     end
 
