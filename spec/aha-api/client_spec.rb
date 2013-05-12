@@ -7,17 +7,21 @@ describe AhaApi::Client do
   end
 
   it "sets a default user agent" do
-    stub_request(:get, "https://aha.io/api").
+    stub_request(:get, "https://a.aha.io/api").
       with(:headers => {:user_agent => AhaApi.user_agent }).
       to_return(:status => 200, :body => '')
+      
+    AhaApi::Client.new(:domain => "a").aha_meta
   end
 
   it "allows a custom user agent" do
     AhaApi.user_agent = 'Custom user agent'
 
-    stub_request(:get, "https://aha.io/api").
-      with(:headers => {:user_agent => 'Custom user agent' }).
+    stub_request(:get, "https://a.aha.io/api").
+      with(:headers => {:user_agent => 'Custom user agent'}).
       to_return(:status => 200, :body => '')
+      
+    AhaApi::Client.new(:domain => "a").aha_meta
   end
 
   it "works with basic auth and password" do
