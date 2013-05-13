@@ -45,8 +45,8 @@ module AhaApi
         :url => url
       }
 
+      logger.debug("Sending #{method} to #{path}")
       response = connection(conn_options).send(method) do |request|
-
         request.headers['Accept'] =  options.delete(:accept) || 'application/json'
 
         case method
@@ -64,7 +64,7 @@ module AhaApi
         end
 
       end
-
+      logger.debug("  Response: #{response.status}")
       response
     end
 

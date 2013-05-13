@@ -3,11 +3,12 @@ module AhaApi
     module ConnectionFields
 
       def create_connection_field(feature_ref, connector_name, name, value, options={})
-        post("api/#{api_version}/features/#{feature_ref}/connection/#{connector_name}/fields", options.merge({:name => name, :value => value}))
+        post("api/#{api_version}/features/#{feature_ref}/connections/#{connector_name}/fields", 
+          :connection_field => options.merge({:name => name, :value => value}))
       end
 
       def connection_field(feature_ref, connector_name, field_name, options={})
-        get("api/#{api_version}/features/#{feature_ref}/connection/#{connector_name}/fields/#{field_name}", options)
+        get("api/#{api_version}/features/#{feature_ref}/connections/#{connector_name}/fields/#{field_name}", options)
       end
 
     end

@@ -1,4 +1,5 @@
 require 'faraday'
+require 'logger'
 require 'aha-api/version'
 
 module AhaApi
@@ -12,7 +13,8 @@ module AhaApi
       :login,
       :password,
       :proxy,
-      :user_agent].freeze
+      :user_agent,
+      :logger].freeze
 
     DEFAULT_ADAPTER = Faraday.default_adapter
     DEFAULT_API_VERSION = "v1"
@@ -53,6 +55,8 @@ module AhaApi
     end
 
     def reset
+      self.logger              = Logger.new(STDOUT)
+      self.logger.level        = Logger::DEBUG
       self.domain              = nil
       self.adapter             = DEFAULT_ADAPTER
       self.api_version         = DEFAULT_API_VERSION
