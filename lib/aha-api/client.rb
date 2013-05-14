@@ -5,7 +5,7 @@ require 'aha-api/connection'
 require 'aha-api/request'
 
 require 'aha-api/resources/features'
-require 'aha-api/resources/connection_fields'
+require 'aha-api/resources/integration_fields'
 require 'aha-api/resources/meta'
 
 module AhaApi
@@ -23,7 +23,7 @@ module AhaApi
     include AhaApi::Request
 
     include AhaApi::Resource::Features
-    include AhaApi::Resource::ConnectionFields
+    include AhaApi::Resource::IntegrationFields
     include AhaApi::Resource::Meta
   end
 end
