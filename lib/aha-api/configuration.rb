@@ -39,9 +39,7 @@ module AhaApi
 
     def api_endpoint
       u = URI(@url_base.to_s)
-      if not (u.host =~ /[a-z0-9-]+\.[a-z0-9-]+\.[a-z0-9-]+/)
-        u.host = "#{@domain}.#{u.host}"
-      end
+      u.host = "#{@domain}.#{u.host}"
       u.to_s
     end
 

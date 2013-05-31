@@ -11,6 +11,11 @@ module AhaApi
         get("api/#{api_version}/features/#{feature_ref}/integrations/#{integration}/fields/#{field_name}", options)
       end
 
+      def search_integration_fields(integration, field_name, field_value, options={})
+        get("api/#{api_version}/integrations/#{integration}/fields/#{field_name}/value/#{field_value}", options)
+      end
+
+
     end
   end
 end
