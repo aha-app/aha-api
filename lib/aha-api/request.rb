@@ -37,6 +37,10 @@ module AhaApi
     def request(method, path, options={})
       force_urlencoded = options.delete(:force_urlencoded) || false
 
+      token = options.delete(:access_token) ||
+        options.delete(:oauth_token) ||
+        oauth_token
+                    
       url = options.delete(:endpoint) || api_endpoint
 
       conn_options = {
@@ -49,6 +53,10 @@ module AhaApi
       response = connection(conn_options).send(method) do |request|
         request.headers['Accept'] =  options.delete(:accept) || 'application/json'
 
+        if token
+          request.headers[:authorization] = "Bearer #{token}"
+        end
+        
         case method
         when :get
           request.url(path, options)

@@ -13,6 +13,7 @@ module AhaApi
       :api_endpoint,
       :login,
       :password,
+      :oauth_token,
       :proxy,
       :user_agent,
       :logger].freeze
@@ -58,6 +59,7 @@ module AhaApi
       self.proxy               = nil
       self.login               = nil
       self.password            = nil
+      self.oauth_token         = nil
       self.user_agent          = DEFAULT_USER_AGENT
     end
   end
