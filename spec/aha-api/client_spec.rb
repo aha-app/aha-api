@@ -55,12 +55,6 @@ describe AhaApi::Client do
       expect(client.api_endpoint).to eq('https://myaccount.aha.io/')
     end
 
-    it "is set " do
-      AhaApi.api_endpoint = 'http://foo.dev'
-      client = AhaApi::Client.new
-      expect(client.api_endpoint).to eq('http://foo.dev/')
-    end
-
   end
 
   describe "endpoint url" do
