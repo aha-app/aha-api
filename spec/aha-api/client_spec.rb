@@ -73,9 +73,9 @@ describe AhaApi::Client do
     end
 
     it "can be set in the options" do
-      stub_request(:get, 'http://chris.com').
+      stub_request(:get, 'http://a.chris.com').
         to_return(:body => 'k1w1')
-      response = AhaApi::Client.new(:domain => "a").get '/', {:endpoint => 'http://chris.com'}
+      response = AhaApi::Client.new(:domain => "a", :url_base => "http://chris.com").get '/'
       expect(response).to eq('k1w1')
     end
 

@@ -10,6 +10,7 @@ module AhaApi
       :faraday_config_block,
       :api_version,
       :api_endpoint,
+      :url_base,
       :login,
       :password,
       :proxy,
@@ -18,7 +19,7 @@ module AhaApi
 
     DEFAULT_ADAPTER = Faraday.default_adapter
     DEFAULT_API_VERSION = "v1"
-    DEFAULT_API_ENDPOINT = "https://aha.io/"
+    DEFAULT_URL_BASE = "https://aha.io/"
     DEFAULT_USER_AGENT = "Aha! API Ruby Gem #{AhaApi::VERSION}".freeze
 
     attr_accessor(*VALID_OPTIONS_KEYS)
@@ -35,19 +36,12 @@ module AhaApi
       VALID_OPTIONS_KEYS.inject({}){|o,k| o.merge!(k => send(k)) }
     end
 
-    def api_endpoint=(value)
-      @api_endpoint = File.join(value, "")
-    end
     def api_endpoint
-      if @api_endpoint == DEFAULT_API_ENDPOINT
-        u = URI(@api_endpoint.to_s)
-        if not (u.host =~ /[a-z0-9-]+\.[a-z0-9-]+\.[a-z0-9-]+/)
-          u.host = "#{@domain}.#{u.host}"
-        end
-        u.to_s
-      else
-        @api_endpoint
+      u = URI(@url_base.to_s)
+      if not (u.host =~ /[a-z0-9-]+\.[a-z0-9-]+\.[a-z0-9-]+/)
+        u.host = "#{@domain}.#{u.host}"
       end
+      u.to_s
     end
 
     def faraday_config(&block)
@@ -60,7 +54,7 @@ module AhaApi
       self.domain              = nil
       self.adapter             = DEFAULT_ADAPTER
       self.api_version         = DEFAULT_API_VERSION
-      self.api_endpoint        = DEFAULT_API_ENDPOINT
+      self.url_base            = DEFAULT_URL_BASE
       self.proxy               = nil
       self.login               = nil
       self.password            = nil
