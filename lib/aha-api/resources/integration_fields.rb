@@ -17,7 +17,9 @@ module AhaApi
 
     protected
       def resource_type(resource_ref)
-        if resource_ref =~ /-\d+-\d+$/
+        if resource_ref =~ /-R-\d+$/
+          "releases"
+        elsif resource_ref =~ /-\d+-\d+$/
           "requirements"
         else
           "features"
