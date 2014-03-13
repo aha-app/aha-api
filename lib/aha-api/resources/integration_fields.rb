@@ -4,7 +4,12 @@ module AhaApi
 
       def create_integration_field(resource_type, resource_id, integration, name, value, options={})
         post("api/#{api_version}/#{resource_type}/#{resource_id}/integrations/#{integration}/fields", 
-          :integration_field => options.merge({:name => name, :value => value}))
+          options.merge(:integration_field => {:name => name, :value => value}))
+      end
+      
+      def create_integration_fields(resource_type, resource_id, integration, fields, options={})
+        post("api/#{api_version}/#{resource_type}/#{resource_id}/integrations/#{integration}/fields", 
+          options.merge(:integration_fields => fields))
       end
 
       def integration_field(resource_type, resource_id, integration, field_name, options={})
