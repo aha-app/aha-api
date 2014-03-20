@@ -30,7 +30,10 @@ module AhaApi
       def feature(ref, options={})
         get("api/#{api_version}/features/#{ref}", options)
       end
-
+      
+      def update_feature(ref, options = {})
+        put("api/#{api_version}/features/#{ref}", options)
+      end
     end
   end
 end
