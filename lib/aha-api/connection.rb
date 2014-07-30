@@ -8,9 +8,9 @@ module AhaApi
 
     def connection(options={})
       options = {
-        :authenticate     => true,
+        :authenticate => true,
         :force_urlencoded => false,
-        :raw              => false
+        :raw => false
       }.merge(options)
 
       if domain.nil? || domain.empty?

@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
  
   s.add_development_dependency "rspec"
   s.add_development_dependency "webmock"
-  s.add_dependency "faraday"
+  s.add_dependency "faraday", "~> 0.8.9"
   s.add_dependency "faraday_middleware"
   s.add_dependency "hashie"
   s.add_dependency 'multi_json'
