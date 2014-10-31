@@ -35,8 +35,6 @@ module AhaApi
     end
 
     def request(method, path, options={})
-      force_urlencoded = options.delete(:force_urlencoded) || false
-
       token = options.delete(:access_token) ||
         options.delete(:oauth_token) ||
         oauth_token
@@ -44,7 +42,6 @@ module AhaApi
       url = options.delete(:endpoint) || api_endpoint
 
       conn_options = {
-        :force_urlencoded => force_urlencoded,
         :url => url
       }
 
