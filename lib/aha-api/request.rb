@@ -44,7 +44,6 @@ module AhaApi
       url = options.delete(:endpoint) || api_endpoint
 
       conn_options = {
-        :authenticate => true,
         :force_urlencoded => force_urlencoded,
         :url => url
       }
