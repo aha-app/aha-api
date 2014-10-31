@@ -60,11 +60,7 @@ module AhaApi
           request.url(path, options)
         when :patch, :post, :put
           request.path = path
-          if force_urlencoded
-            request.body = options unless options.empty?
-          else
-            request.body = MultiJson.dump(options) unless options.empty?
-          end
+          request.body = MultiJson.dump(options) unless options.empty?
         end
 
       end
