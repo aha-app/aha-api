@@ -8,7 +8,6 @@ module AhaApi
 
     def connection(options={})
       options = {
-        :authenticate => true,
         :force_urlencoded => false,
         :raw => false
       }.merge(options)
