@@ -35,8 +35,6 @@ module AhaApi
     end
 
     def request(method, path, options={})
-      force_urlencoded = options.delete(:force_urlencoded) || false
-
       token = options.delete(:access_token) ||
         options.delete(:oauth_token) ||
         oauth_token
@@ -44,8 +42,6 @@ module AhaApi
       url = options.delete(:endpoint) || api_endpoint
 
       conn_options = {
-        :authenticate => true,
-        :force_urlencoded => force_urlencoded,
         :url => url
       }
 
@@ -64,11 +60,7 @@ module AhaApi
           request.url(path, options)
         when :patch, :post, :put
           request.path = path
-          if force_urlencoded
-            request.body = options unless options.empty?
-          else
-            request.body = MultiJson.dump(options) unless options.empty?
-          end
+          request.body = MultiJson.dump(options) unless options.empty?
         end
 
       end

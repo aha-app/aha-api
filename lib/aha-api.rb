@@ -1,3 +1,6 @@
+require 'faraday'
+require 'faraday_middleware'
+
 require 'aha-api/configuration'
 require 'aha-api/error'
 require 'aha-api/client'

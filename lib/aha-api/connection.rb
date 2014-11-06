@@ -7,12 +7,6 @@ module AhaApi
     private
 
     def connection(options={})
-      options = {
-        :authenticate     => true,
-        :force_urlencoded => false,
-        :raw              => false
-      }.merge(options)
-
       if domain.nil? || domain.empty?
         raise ConfigurationError, "domain must be specified"
       end
@@ -24,11 +18,7 @@ module AhaApi
       # TODO: Don't build on every request
       connection = Faraday.new(options) do |builder|
 
-        if options[:force_urlencoded]
-          builder.request :url_encoded
-        else
-          builder.request :json
-        end
+        builder.request :json
 
         builder.use Faraday::Response::RaiseAhaError
         builder.use FaradayMiddleware::FollowRedirects

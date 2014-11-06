@@ -7,21 +7,21 @@ describe AhaApi::Client do
   end
 
   it "sets a default user agent" do
-    stub_request(:get, "https://a.aha.io/api").
+    stub_request(:post, "https://a.aha.io/api/v1/features").
       with(:headers => {:user_agent => AhaApi.user_agent }).
       to_return(:status => 200, :body => '')
       
-    AhaApi::Client.new(:domain => "a").aha_meta
+    AhaApi::Client.new(:domain => "a").create_feature("New feature", "Description")
   end
 
   it "allows a custom user agent" do
     AhaApi.user_agent = 'Custom user agent'
 
-    stub_request(:get, "https://a.aha.io/api").
+    stub_request(:post, "https://a.aha.io/api/v1/features").
       with(:headers => {:user_agent => 'Custom user agent'}).
       to_return(:status => 200, :body => '')
       
-    AhaApi::Client.new(:domain => "a").aha_meta
+    AhaApi::Client.new(:domain => "a").create_feature("New feature", "Description")
   end
 
   it "works with basic auth and password" do
@@ -37,10 +37,10 @@ describe AhaApi::Client do
     AhaApi.configure do |c|
       c.faraday_config { |f| mw_evaluated = true }
     end
-    stub_request(:get, "https://a.aha.io/meta").
+    stub_request(:post, "https://a.aha.io/api/v1/features").
       to_return(:status => 200, :body => '')
     client = AhaApi::Client.new(:domain => "a")
-    client.aha_meta
+    client.create_feature("New feature", "Description")
     expect(mw_evaluated).to eq(true)
   end
 
@@ -71,18 +71,6 @@ describe AhaApi::Client do
         to_return(:body => 'k1w1')
       response = AhaApi::Client.new(:domain => "a", :url_base => "http://chris.com").get '/'
       expect(response).to eq('k1w1')
-    end
-
-  end
-
-  describe "error handling" do
-
-    it "displays validation errors" do
-      stub_patch("https://foo:bar@api.github.com/repos/pengwynn/api-sandbox").
-        to_return(json_response("validation_failed.json"))
-
-      response = AhaApi::Client.new(:login => 'foo', :password => 'bar').update_repository('pengwynn/api-sandbox')
-      expect(response.errors.first.message).to eq('name is too short (minimum is 1 characters)')
     end
 
   end
