@@ -19,6 +19,11 @@ module AhaApi
       def search_integration_fields(integration, field_name, field_value, options={})
         get("api/#{api_version}/integrations/#{integration}/fields/#{field_name}/value/#{field_value}", options)
       end
+      
+      def adjacent_integration_fields(resource_type, resource_id, integration, options={})
+        get("api/#{api_version}/#{resource_type}/#{resource_id}/integrations/#{integration}/adjacent_fields", options)
+      end
+      
     end
   end
 end
