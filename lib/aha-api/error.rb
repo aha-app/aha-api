@@ -32,6 +32,7 @@ module AhaApi
         end
       errors = if response_body && response_body[:errors]
         ": #{response_body[:errors].map{|e| e[:message]}.join(', ')}"
+        end   
       end
             
       "#{@response[:method].to_s.upcase} #{@response[:url].to_s}: #{@response[:status]}#{message}#{errors}"
