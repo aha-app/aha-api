@@ -8,6 +8,7 @@ require 'aha-api/resources/features'
 require 'aha-api/resources/ideas'
 require 'aha-api/resources/comments'
 require 'aha-api/resources/integration_fields'
+require 'aha-api/resources/integration_candidates'
 
 module AhaApi
   class Client
