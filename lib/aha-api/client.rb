@@ -27,5 +27,6 @@ module AhaApi
     include AhaApi::Resource::Ideas
     include AhaApi::Resource::Comments
     include AhaApi::Resource::IntegrationFields
+    include AhaApi::Resource::IntegrationCandidates
   end
 end
