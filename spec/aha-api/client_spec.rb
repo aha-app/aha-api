@@ -25,7 +25,8 @@ describe AhaApi::Client do
   end
 
   it "works with basic auth and password" do
-    stub_get("https://foo:bar@a.aha.io/api/v1/features/APP-1").
+    stub_request(:get, "https://a.aha.io/api/v1/features/APP-1").
+      with(headers: {'Authorization'=>'Basic Zm9vOmJhcg=='}).
       to_return(:status => 200, :body => '', :headers => {})
     expect {
       AhaApi::Client.new(:domain => 'a', :login => 'foo', :password => 'bar').feature('APP-1')
