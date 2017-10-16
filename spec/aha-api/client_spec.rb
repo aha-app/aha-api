@@ -25,7 +25,7 @@ describe AhaApi::Client do
   end
 
   it "works with basic auth and password" do
-    stub_get("https://foo:bar@a.aha.io/api/v1/features/APP-1").
+    stub_get("https://a.aha.io/api/v1/features/APP-1").
       to_return(:status => 200, :body => '', :headers => {})
     expect {
       AhaApi::Client.new(:domain => 'a', :login => 'foo', :password => 'bar').feature('APP-1')
@@ -42,6 +42,15 @@ describe AhaApi::Client do
     client = AhaApi::Client.new(:domain => "a")
     client.create_feature("New feature", "Description")
     expect(mw_evaluated).to eq(true)
+  end
+
+  it "handles errors" do
+    # Hash style
+    errors = AhaApi::Error.new(status: 400, method: 'PUT', url: '/foo', body: '{"error":"Validation failed","errors":{"message":"Workflow status can\'t be blank"}}')
+    expect(errors.message).to eq("PUT /foo => 400 Validation failed: Workflow status can't be blank")
+    # Array style
+    errors = AhaApi::Error.new(status: 400, method: 'PUT', url: '/foo', body: '{"error":"Validation failed","errors":[{"message":"Workflow status can\'t be blank"}]}')
+    expect(errors.message).to eq("PUT /foo => 400 Validation failed: Workflow status can't be blank")
   end
 
   describe "api_endpoint" do
