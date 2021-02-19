@@ -25,8 +25,9 @@ describe AhaApi::Client do
   end
 
   it "works with basic auth and password" do
-    stub_get("https://a.aha.io/api/v1/features/APP-1").
-      to_return(:status => 200, :body => '', :headers => {})
+    stub_request(:get, "https://foo:bar@a.aha.io/api/v1/features/APP-1").
+         with(:headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Aha! API Ruby Gem 1.0.14'}).
+         to_return(:status => 200, :body => "", :headers => {})
     expect {
       AhaApi::Client.new(:domain => 'a', :login => 'foo', :password => 'bar').feature('APP-1')
     }.not_to raise_exception
