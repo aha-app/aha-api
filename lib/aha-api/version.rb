@@ -1,3 +1,3 @@
 module AhaApi
-  VERSION = "1.0.14"
+  VERSION = "1.0.42"
 end
