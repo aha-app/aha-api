@@ -10,15 +10,15 @@ module AhaApi
       if domain.nil? || domain.empty?
         raise ConfigurationError, "domain must be specified"
       end
-      
+
       if !proxy.nil?
         options.merge!(:proxy => proxy)
       end
 
       # TODO: Don't build on every request
-      connection = Faraday.new(options) do |builder|
-
+      Faraday.new(options) do |builder|
         builder.request :json
+        builder.request(:basic_auth, login, password)
 
         builder.use Faraday::Response::RaiseAhaError
         builder.use FaradayMiddleware::FollowRedirects
@@ -28,14 +28,9 @@ module AhaApi
 
         faraday_config_block.call(builder) if faraday_config_block
 
+        builder.headers[:user_agent] = user_agent
         builder.adapter *adapter
       end
-
-      connection.basic_auth login, password
-
-      connection.headers[:user_agent] = user_agent
-
-      connection
     end
   end
 end
