@@ -10,7 +10,7 @@ describe AhaApi::Client do
     stub_request(:post, "https://a.aha.io/api/v1/features").
       with(:headers => {:user_agent => AhaApi.user_agent }).
       to_return(:status => 200, :body => '')
-      
+
     AhaApi::Client.new(:domain => "a").create_feature("New feature", "Description")
   end
 
@@ -20,7 +20,7 @@ describe AhaApi::Client do
     stub_request(:post, "https://a.aha.io/api/v1/features").
       with(:headers => {:user_agent => 'Custom user agent'}).
       to_return(:status => 200, :body => '')
-      
+
     AhaApi::Client.new(:domain => "a").create_feature("New feature", "Description")
   end
 
@@ -30,6 +30,13 @@ describe AhaApi::Client do
     expect {
       AhaApi::Client.new(:domain => 'a', :login => 'foo', :password => 'bar').feature('APP-1')
     }.not_to raise_exception
+  end
+
+  it "raises aha errors" do
+    stub_get("https://a.aha.io/api/v1/features/APP-1").to_return(:status => 500, :body => '', :headers => {})
+    expect {
+      AhaApi::Client.new(:domain => 'a').feature('APP-1')
+    }.to raise_exception(AhaApi::InternalServerError)
   end
 
   it "configures faraday from faraday_config_block" do
@@ -63,7 +70,6 @@ describe AhaApi::Client do
       client = AhaApi::Client.new(:domain => "myaccount")
       expect(client.api_endpoint).to eq('https://myaccount.aha.io/')
     end
-
   end
 
   describe "endpoint url" do
@@ -81,8 +87,5 @@ describe AhaApi::Client do
       response = AhaApi::Client.new(:domain => "a", :url_base => "http://chris.com").get '/'
       expect(response).to eq('k1w1')
     end
-
   end
-
-
 end

@@ -1,4 +1,5 @@
-require 'faraday_middleware'
+require 'faraday/follow_redirects'
+require 'faraday/mashify'
 require 'faraday/response/raise_aha_error'
 
 module AhaApi
@@ -18,13 +19,12 @@ module AhaApi
       # TODO: Don't build on every request
       Faraday.new(options) do |builder|
         builder.request :json
-        builder.request(:basic_auth, login, password)
+        builder.request(:authorization, :basic, login, password)
 
-        builder.use Faraday::Response::RaiseAhaError
-        builder.use FaradayMiddleware::FollowRedirects
-        builder.use FaradayMiddleware::Mashify
-
-        builder.use FaradayMiddleware::ParseJson, :content_type => /\bjson$/
+        builder.use Faraday::FollowRedirects::Middleware
+        builder.use Faraday::Mashify::Middleware
+        builder.use Faraday::Request::Json
+        builder.use Faraday::RaiseAhaError::Middleware
 
         faraday_config_block.call(builder) if faraday_config_block
 

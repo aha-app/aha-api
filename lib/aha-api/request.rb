@@ -38,7 +38,7 @@ module AhaApi
       token = options.delete(:access_token) ||
         options.delete(:oauth_token) ||
         oauth_token
-                    
+
       url = options.delete(:endpoint) || api_endpoint
 
       conn_options = {
@@ -52,7 +52,7 @@ module AhaApi
         if token
           request.headers[:authorization] = "Bearer #{token}"
         end
-        
+
         case method
         when :get
           request.url(path, options)
