@@ -39,15 +39,17 @@ module AhaApi
         options.delete(:oauth_token) ||
         oauth_token
 
+      accept = options.delete(:accept) || 'application/json'
       url = options.delete(:endpoint) || api_endpoint
 
       conn_options = {
-        :url => url
+        accept: accept,
+        url: url,
       }
 
       logger.debug("Sending #{method} to #{path}")
       response = connection(conn_options).send(method) do |request|
-        request.headers['Accept'] =  options.delete(:accept) || 'application/json'
+        request.headers['Accept'] = accept
 
         if token
           request.headers[:authorization] = "Bearer #{token}"
