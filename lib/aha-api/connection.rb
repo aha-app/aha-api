@@ -16,9 +16,12 @@ module AhaApi
         options.merge!(:proxy => proxy)
       end
 
+      accept = options.delete(:accept)
+
       # TODO: Don't build on every request
       Faraday.new(options) do |builder|
         builder.request :json
+        builder.response :json if accept == 'application/json'
         builder.request(:authorization, :basic, login, password)
 
         builder.use Faraday::FollowRedirects::Middleware
