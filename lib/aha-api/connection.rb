@@ -21,8 +21,12 @@ module AhaApi
       # TODO: Don't build on every request
       Faraday.new(options) do |builder|
         builder.request :json
-        builder.response :json if accept == 'application/json'
         builder.request(:authorization, :basic, login, password)
+
+        if accept == 'application/json'
+          builder.response :mashify
+          builder.response :json
+        end
 
         builder.use Faraday::FollowRedirects::Middleware
         builder.use Faraday::Mashify::Middleware
