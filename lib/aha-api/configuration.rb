@@ -29,6 +29,13 @@ module AhaApi
       base.reset
     end
 
+    # The API endpoint for an account's domain, e.g. https://myaccount.aha.io/
+    def self.api_endpoint_for(domain, url_base)
+      uri = URI(url_base.to_s)
+      uri.host = "#{domain}.#{uri.host}"
+      uri.to_s
+    end
+
     def configure
       yield self
     end
@@ -38,9 +45,7 @@ module AhaApi
     end
 
     def api_endpoint
-      u = URI(@url_base.to_s)
-      u.host = "#{@domain}.#{u.host}"
-      u.to_s
+      Configuration.api_endpoint_for(@domain, @url_base)
     end
 
     def faraday_config(&block)

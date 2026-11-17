@@ -14,11 +14,20 @@ module AhaApi
   class Client
     attr_accessor(*Configuration::VALID_OPTIONS_KEYS)
 
+    # Each option comes from the given options, falling back to the global configuration (AhaApi.configure). The
+    # global configuration is only read as writing a client's options into it let clients created at the same time on
+    # other threads take that client's domain, token and logger, and left them as the defaults for later clients.
     def initialize(options={})
-      Configuration::VALID_OPTIONS_KEYS.each do |key|
-        AhaApi.send("#{key}=", options[key]) if options[key]
-        send("#{key}=", AhaApi.send(key))
+      (Configuration::VALID_OPTIONS_KEYS - [:api_endpoint]).each do |key|
+        send("#{key}=", options[key] || AhaApi.send(key))
       end
+
+      self.api_endpoint = options[:api_endpoint]
+    end
+
+    def api_endpoint
+      # Use the given endpoint or fallback to one built from this client's own domain and URL base
+      @api_endpoint || Configuration.api_endpoint_for(domain, url_base)
     end
 
     include AhaApi::Connection
