@@ -72,6 +72,44 @@ describe AhaApi::Client do
     end
   end
 
+  describe "options" do
+    after(:each) do
+      AhaApi.reset
+    end
+
+    it "doesn't change the global configuration" do
+      AhaApi::Client.new(:domain => "acme", :url_base => "http://example.com", :oauth_token => "secret")
+
+      expect(AhaApi.domain).to be_nil
+      expect(AhaApi.url_base).to eq(AhaApi::Configuration::DEFAULT_URL_BASE)
+      expect(AhaApi.oauth_token).to be_nil
+    end
+
+    it "keeps each client's own domain, token and endpoint" do
+      first = AhaApi::Client.new(:domain => "first", :oauth_token => "first-token")
+      second = AhaApi::Client.new(:domain => "second", :oauth_token => "second-token")
+
+      expect([first.domain, first.oauth_token, first.api_endpoint]).to eq(["first", "first-token", "https://first.aha.io/"])
+      expect([second.domain, second.oauth_token, second.api_endpoint]).to eq(["second", "second-token", "https://second.aha.io/"])
+    end
+
+    it "doesn't give a client the options of a client created before it" do
+      AhaApi::Client.new(:domain => "first", :oauth_token => "first-token")
+
+      expect(AhaApi::Client.new(:domain => "second").oauth_token).to be_nil
+    end
+
+    it "falls back to the global configuration" do
+      AhaApi.configure { |c| c.oauth_token = "configured-token" }
+
+      expect(AhaApi::Client.new(:domain => "a").oauth_token).to eq("configured-token")
+    end
+
+    it "uses a given api_endpoint" do
+      expect(AhaApi::Client.new(:domain => "a", :api_endpoint => "http://localhost:3000/").api_endpoint).to eq("http://localhost:3000/")
+    end
+  end
+
   describe "endpoint url" do
 
     it "defaults to aha.io" do
